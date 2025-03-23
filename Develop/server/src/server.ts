@@ -14,6 +14,7 @@ const server = new ApolloServer({
 });
 const startApolloServer=async()=>{
   await server.start();
+  await db;
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use("/graphql",expressMiddleware(server as any,
@@ -28,9 +29,9 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 
-
-db.once('open', () => {
+console.log("before db connection");
+// db.once('open', () => {
   app.listen(PORT, () => console.log(`🌍 Now listening on localhost:${PORT}`));
-});
+// });
 }
 startApolloServer();

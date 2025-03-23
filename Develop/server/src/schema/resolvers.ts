@@ -12,7 +12,7 @@ interface LoginParams {
 }
 const resolvers= {
   Query: {
-    me: async (parent: any, args: any, context: UserContext) => {
+    me: async (_parent: any, _args: any, context: UserContext) => {
       if (context.user) {
         return User.findOne({ _id: context.user._id }).populate('savedBooks');
       }
@@ -20,7 +20,7 @@ const resolvers= {
     },
   },
   Mutation: {
-    login: async (parent: any, { email, password }: LoginParams) => {
+    login: async (_parent: any, { email, password }: LoginParams) => {
       const
       user = await User.findOne({ email });
       if (!user) {
@@ -33,11 +33,34 @@ const resolvers= {
         const token = signToken(user.username, user.email, user._id);
         return { token, user };
     },
-    addUser: async (parent: any, args: any) => {
+    addUser: async (_parent: any, args: any) => {
       const user = await User.create(args);
       const token = signToken(user.username, user.email, user._id);
       return { token, user };
     },
+    saveBook: async (_parent: any, args: any, context: UserContext) => {
+        console.log(context.user)
+      if (context.user) {
+        const updatedUser =
+        await User.findOneAndUpdate(
+            { _id: context.user._id },
+            { $addToSet: { savedBooks: args } },
+            { new: true, runValidators: true }
+            );
+            return updatedUser;
+      } throw new Error('You need to be logged in!');
+    },
+    removeBook: async (_parent: any, { bookId }: any, context: UserContext) => {
+      if (context.user) {
+        const updatedUser =
+        await User.findOneAndUpdate(
+            { _id: context.user._id },
+            { $pull: { savedBooks: { bookId } } },
+            { new: true }
+            );
+            return updatedUser;
+      } throw new Error('You need to be logged in!');
 },
+    },
 };
 export default resolvers;
