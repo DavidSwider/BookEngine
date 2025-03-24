@@ -6,6 +6,7 @@ import resolvers from './schema/resolvers.js';
 import { ApolloServer } from '@apollo/server';
 import { authenticateToken } from './services/auth.js';
 import { expressMiddleware } from '@apollo/server/express4';
+const __dirname = path.resolve();
 const app = express();
 const PORT = process.env.PORT || 3001;
 const server = new ApolloServer({
