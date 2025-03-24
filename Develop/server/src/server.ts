@@ -35,7 +35,7 @@ if (process.env.NODE_ENV === 'production') {
 
 console.log("before db connection");
 // db.once('open', () => {
-  app.listen(PORT, () => console.log(`🌍 Now listening on localhost:${PORT}/graphal`));
+  app.listen(PORT, () => console.log(`🌍 Now listening on localhost:${PORT}/graphql`));
 // });
 }
 startApolloServer();
