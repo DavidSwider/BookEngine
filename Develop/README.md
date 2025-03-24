@@ -104,5 +104,5 @@ The application is deployed at:
 
 ---
 
-This README provides a structured overview of the **Book Search Engine**. 🚀
+This README provides a structured overview of the **Book Search Engine**.🚀
 
