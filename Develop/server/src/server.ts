@@ -6,20 +6,27 @@ import resolvers from './schema/resolvers.js';
 import { ApolloServer } from '@apollo/server';
 import { authenticateToken } from './services/auth.js';
 import { expressMiddleware } from '@apollo/server/express4';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 
-const __dirname = path.resolve();
-const app = express();
-const PORT = process.env.PORT || 3001;
 const server = new ApolloServer({
   typeDefs,
   resolvers,
 });
+
 const startApolloServer=async()=>{
   await server.start();
   await db;
+
+const app = express();
+const PORT = process.env.PORT || 3001;
+
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+
 app.use("/graphql",expressMiddleware(server as any,
   {
     context: authenticateToken as any
