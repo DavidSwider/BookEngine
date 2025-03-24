@@ -6,6 +6,9 @@ import resolvers from './schema/resolvers.js';
 import { ApolloServer } from '@apollo/server';
 import { authenticateToken } from './services/auth.js';
 import { expressMiddleware } from '@apollo/server/express4';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.resolve();
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -32,7 +35,7 @@ if (process.env.NODE_ENV === 'production') {
 
 console.log("before db connection");
 // db.once('open', () => {
-  app.listen(PORT, () => console.log(`🌍 Now listening on localhost:${PORT}`));
+  app.listen(PORT, () => console.log(`🌍 Now listening on localhost:${PORT}/graphal`));
 // });
 }
 startApolloServer();
